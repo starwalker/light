@@ -61,6 +61,13 @@ gulp.task('css', function () {
         .pipe(gulp.dest(dist.css));
 });
 
+gulp.task('js', function () {
+    return gulp.src('app/scripts/**/*.js')
+        .pipe(uglify())
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest(dist.js));
+});
+
 gulp.task('copy', function() {
     gulp.src('app/index.html')
         .pipe(gulp.dest(dist.js));
@@ -117,9 +124,8 @@ gulp.task('jscs', function() {
 gulp.task('default', [
     'bower',
     'css',
-    'copy',
-    'minify',
-    'non-minified'
+    'js',
+    'copy'
 ]);
 
 gulp.task('watch', function() {
