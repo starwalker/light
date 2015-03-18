@@ -14,7 +14,6 @@ var rename = require('gulp-rename');
 var minifycss = require('gulp-minify-css');
 var flatten = require('gulp-flatten');
 var mainBowerFiles = require('main-bower-files');
-var del = require('del');
 
 var publishdir = 'dist';
 var dist = {
@@ -25,15 +24,6 @@ var dist = {
     vendor: publishdir + '/'
 };
 
-function clean(path, done) {
-  del(path, done);
-}
-
-gulp.task('clean-all', function(done){
-  var files = [].concat(publishdir);
-  clean(files, done);
-});
-
 gulp.task('bower', function() {
     var jsFilter = gulpFilter('**/*.js')
     var cssFilter = gulpFilter('**/*.css')
@@ -43,11 +33,11 @@ gulp.task('bower', function() {
         .pipe(jsFilter)
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest(dist.js))
-        //.pipe(uglify())
-        //.pipe(rename({
-        //    suffix: ".min"
-        //}))
-        //.pipe(gulp.dest(dist.js))
+        .pipe(uglify())
+        .pipe(rename({
+            suffix: ".min"
+        }))
+        .pipe(gulp.dest(dist.js))
         .pipe(jsFilter.restore())
         .pipe(cssFilter)
         .pipe(concat('vendor.css'))
@@ -69,13 +59,6 @@ gulp.task('css', function () {
         .pipe(minifycss())
         .pipe(concat('style.css'))
         .pipe(gulp.dest(dist.css));
-});
-
-gulp.task('js', function () {
-    return gulp.src('app/scripts/**/*.js')
-        .pipe(uglify())
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest(dist.js));
 });
 
 gulp.task('copy', function() {
@@ -134,8 +117,9 @@ gulp.task('jscs', function() {
 gulp.task('default', [
     'bower',
     'css',
-    'js',
-    'copy'
+    'copy',
+    'minify',
+    'non-minified'
 ]);
 
 gulp.task('watch', function() {

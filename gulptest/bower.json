@@ -32,7 +32,7 @@
     "angular-schema-form-strapselect": "~0.1.2",
     "angular-schema-form-file-reader": "~0.1.0",
     "angular-schema-form-ui-select": "~0.1.0",
-    "angular-schema-form-datetimepicker": "~0.1.1",
+    "schema-form-datetimepicker": "chengz/schema-form-datetimepicker",
     "momentjs": "~2.8.4",
     "stacktrace-js": "~0.6.4"
   },
